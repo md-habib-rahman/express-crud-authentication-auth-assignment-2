@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { pool } from "../../database/db"
+
 import { authServices } from "./auth.service"
 
 
@@ -22,6 +22,24 @@ const signUp = async (req: Request, res: Response) => {
 	}
 }
 
+const signIn = async (req: Request, res: Response) => {
+	try {
+		const result = await authServices.signIn(req.body)
+
+		res.status(200).send({
+			success: true,
+			message: "Login successful",
+			data: result
+		})
+	} catch (err: any) {
+		res.status(500).send({
+			success: false,
+			message: err.message
+		})
+	}
+}
+
 export const authController = {
 	signUp,
+	signIn
 }
