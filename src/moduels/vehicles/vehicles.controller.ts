@@ -59,7 +59,48 @@ const getSingleVehicles = async (req: Request, res: Response) => {
 			return res.status(200).send({
 				success: true,
 				message: "No vehicles found",
+			})
+		}
+	} catch (err: any) {
+		return res.status(500).send({
+			success: false,
+			message: err.message
+		})
+	}
+}
 
+const updateVehicle = async (req: Request, res: Response) => {
+
+	const vehicle = { ...req.params, ...req.body }
+	try {
+		const result = await vehicleServices.updateVehicle(vehicle)
+		if (result.rowCount !== 0) {
+			res.status(200).send({
+				success: true,
+				message: "Vehicle updated successfully",
+				data: result.rows[0]
+			})
+		}
+	} catch (err: any) {
+		res.status(500).send({
+			success: false,
+			message: err.message
+		})
+	}
+
+
+
+
+}
+
+const deleteVehicle = async (req: Request, res: Response) => {
+	const { vehicleId } = req.params;
+	try {
+		const result = await vehicleServices.deleteVehicle(vehicleId);
+		if (result.rowCount !== 0) {
+			res.status(200).send({
+				success: true,
+				message: "Vehicle deleted successfully"
 			})
 		}
 	} catch (err: any) {
@@ -73,6 +114,7 @@ const getSingleVehicles = async (req: Request, res: Response) => {
 export const vehicleController = {
 	addVehicle,
 	getAllVehicles,
-	getSingleVehicles
-
+	getSingleVehicles,
+	updateVehicle,
+	deleteVehicle
 }
