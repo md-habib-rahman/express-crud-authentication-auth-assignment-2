@@ -96,6 +96,11 @@ const updateVehicle = async (req: Request, res: Response) => {
 const deleteVehicle = async (req: Request, res: Response) => {
 	const { vehicleId } = req.params;
 	try {
+		if (req.user?.role !== 'admin') {
+			const error: any = new Error('Forbidden!')
+			error.statusCode = 403;
+			throw error;
+		}
 		const result = await vehicleServices.deleteVehicle(vehicleId);
 		if (result.rowCount !== 0) {
 			res.status(200).send({
@@ -104,7 +109,7 @@ const deleteVehicle = async (req: Request, res: Response) => {
 			})
 		}
 	} catch (err: any) {
-		return res.status(500).send({
+		return res.status(err.statusCode || 500).send({
 			success: false,
 			message: err.message
 		})

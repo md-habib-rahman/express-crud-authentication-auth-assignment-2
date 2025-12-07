@@ -4,6 +4,12 @@ import { userServices } from "./user.services";
 
 const getAllUsers = async (req: Request, res: Response) => {
 	try {
+
+		if (req.user?.role !== 'admin') {
+			const error: any = new Error('Forbidden!')
+			error.statusCode = 403;
+			throw error;
+		}
 		const result = await userServices.getAllUsers()
 		if (result.rowCount > 0) {
 			return res.status(200).send({
@@ -18,9 +24,10 @@ const getAllUsers = async (req: Request, res: Response) => {
 
 		})
 	} catch (err: any) {
-		return res.status(500).send({
+		return res.status(err.statusCode || 500).json({
 			success: false,
-			message: err.message
+			message: err.message,
+
 		})
 	}
 }
