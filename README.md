@@ -135,13 +135,15 @@ JWT_SECRET=your_jwt_secret_here
 
 ## 🚀 Install & Run
 
-```npm install
+```
+npm install
 
 ```
 
 ## Start development server
 
-```npm run dev
+```
+npm run dev
 
 ```
 
@@ -149,3 +151,10 @@ JWT_SECRET=your_jwt_secret_here
 
 Pull requests are welcome.
 Follow clean code practices and use descriptive commit messages.
+
+## 🔐 Admin Credential
+
+```
+User: habib.rahman@live.com
+Password: abc123
+```
