@@ -5,14 +5,23 @@ import { vehicleServices } from "./vehicles.services"
 
 const addVehicle = async (req: Request, res: Response) => {
 	try {
-		const result = await vehicleServices.addVehicle(req.body);
-		if (result.rowCount > 0) {
-			return res.status(201).send({
+		if (req.user?.role === 'admin') {
+			const result = await vehicleServices.addVehicle(req.body);
+			if (result.rowCount > 0) {
+				return res.status(201).send({
+					success: true,
+					message: "Vehicle created successfully",
+					data: result.rows
+				})
+			}
+		} else {
+			return res.status(403).send({
 				success: true,
-				message: "Vehicle created successfully",
-				data: result.rows
+				message: "Forbidden",
+
 			})
 		}
+
 	} catch (err: any) {
 		return res.status(500).send({
 			success: false,
@@ -73,14 +82,23 @@ const updateVehicle = async (req: Request, res: Response) => {
 
 	const vehicle = { ...req.params, ...req.body }
 	try {
-		const result = await vehicleServices.updateVehicle(vehicle)
-		if (result.rowCount !== 0) {
-			res.status(200).send({
+		if (req.user?.role === 'admin') {
+			const result = await vehicleServices.updateVehicle(vehicle)
+			if (result.rowCount !== 0) {
+				res.status(200).send({
+					success: true,
+					message: "Vehicle updated successfully",
+					data: result.rows[0]
+				})
+			}
+		} else {
+			return res.status(403).send({
 				success: true,
-				message: "Vehicle updated successfully",
-				data: result.rows[0]
+				message: "Forbidden",
+
 			})
 		}
+
 	} catch (err: any) {
 		res.status(500).send({
 			success: false,

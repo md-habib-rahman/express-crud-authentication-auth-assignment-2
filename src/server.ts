@@ -6,6 +6,7 @@ import config from './config'
 import { vehicleRoute } from './moduels/vehicles/vehicles.router'
 import { userRoute } from './moduels/user/user.router'
 import { bookingRoutes } from './moduels/bookings/bookings.route'
+import './cron/index'
 
 const app = express()
 app.use(express.json())

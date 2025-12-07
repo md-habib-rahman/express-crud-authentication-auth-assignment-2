@@ -35,14 +35,22 @@ const getAllUsers = async (req: Request, res: Response) => {
 const updateUser = async (req: Request, res: Response) => {
 	const newUser = { ...req.params, ...req.body }
 	try {
-		const result = await userServices.updateUser(newUser)
-		if (result.rowCount > 0) {
-			res.status(200).send({
-				success: true,
-				message: "User updated successfully",
-				data: result.rows
+		if (req.user?.role === 'admin' || req.user?.id === req.params) {
+			const result = await userServices.updateUser(newUser)
+			if (result.rowCount > 0) {
+				return res.status(200).send({
+					success: true,
+					message: "User updated successfully",
+					data: result.rows
+				})
+			}
+		} else {
+			return res.status(403).send({
+				success: false,
+				message: 'Forbidden!'
 			})
 		}
+
 	} catch (err: any) {
 		res.status(500).send({
 			success: false,
@@ -55,13 +63,21 @@ const updateUser = async (req: Request, res: Response) => {
 const deleteUser = async (req: Request, res: Response) => {
 	const { userId } = req.params
 	try {
-		const result = await userServices.deleteUser(userId)
-		if (result.rowCount > 0) {
-			res.status(200).send({
-				"success": true,
-				"message": "User deleted successfully"
+		if (req.user?.role === 'admin') {
+			const result = await userServices.deleteUser(userId)
+			if (result.rowCount > 0) {
+				return res.status(200).send({
+					"success": true,
+					"message": "User deleted successfully"
+				})
+			}
+		} else {
+			return res.status(403).send({
+				success: false,
+				message: 'Forbidden!'
 			})
 		}
+
 	} catch (err: any) {
 		res.status(500).send({
 			success: false,
