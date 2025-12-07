@@ -5,6 +5,7 @@ import { authRoute } from './moduels/auth/auth.router'
 import config from './config'
 import { vehicleRoute } from './moduels/vehicles/vehicles.router'
 import { userRoute } from './moduels/user/user.router'
+import { bookingRoutes } from './moduels/bookings/bookings.route'
 
 const app = express()
 app.use(express.json())
@@ -16,6 +17,7 @@ initDB()
 app.use('/api/v1/auth', authRoute)
 app.use('/api/v1/vehicles', vehicleRoute)
 app.use('/api/v1/users', userRoute)
+app.use('/api/v1/bookings', bookingRoutes)
 
 app.post('/', async (req: Request, res: Response) => {
 

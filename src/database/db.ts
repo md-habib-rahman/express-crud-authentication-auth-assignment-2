@@ -25,4 +25,17 @@ export const initDB = async () => {
 			daily_rent_price INT NOT NULL CHECK (daily_rent_price > 0),
 			availability_status VARCHAR(20) NOT NULL CHECK (availability_status IN ('available', 'booked'))
 			)`)
+
+	await pool.query(`
+				CREATE TABLE IF NOT EXISTS bookings(
+				id SERIAL,
+				customer_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+				vehicle_id INTEGER NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE,
+				rent_start_date DATE NOT NULL,
+				rent_end_date DATE NOT NULL,
+				total_price INTEGER NOT NULL,
+				status VARCHAR(20) NOT NULL
+				
+				)
+				`)
 }
