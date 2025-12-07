@@ -129,6 +129,23 @@ A backend API for a vehicle rental management system that handles:
 
 ```
 PORT=5000
-DATABASE_URL=postgres://user:password@localhost:5432/car_rental
+CONNECTION_STR=postgres://user:password@localhost:5432/car_rental
 JWT_SECRET=your_jwt_secret_here
 ```
+
+## 🚀 Install & Run
+
+```npm install
+
+```
+
+## Start development server
+
+```npm run dev
+
+```
+
+## 🙌 Contributing
+
+Pull requests are welcome.
+Follow clean code practices and use descriptive commit messages.
